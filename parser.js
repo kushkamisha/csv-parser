@@ -4,8 +4,8 @@ const fs = require('fs')
 const Liner = require('./liner')
 const source = fs.createReadStream('data/small.csv')
 const liner = new Liner({
-    delimiter: '\t',
-    header: true
+    // delimiter: ',',
+    // header: true
 })
 
 source

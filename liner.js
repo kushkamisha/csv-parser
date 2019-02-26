@@ -7,10 +7,11 @@ class Liner extends Transform {
     constructor(options={}) {
         super({ objectMode: true })
 
-        this.delimiter = options.delimiter || ','
+        this.delimiter = options.delimiter || undefined
         this.hasHeader = options.header || false
 
         this.parsed = []
+        this.delimiters = [',', '\t', ';', '|', '^']
         this.firstLine = true
         this.header = []
     }
@@ -20,6 +21,10 @@ class Liner extends Transform {
         if (this._lastLineData) data = this._lastLineData + data
 
         const lines = data.split('\n')
+        
+        if (!this.delimiter)
+            this.delimiter = this.findDelimiter(lines)
+        
         this._lastLineData = lines.splice(lines.length - 1, 1)[0]
 
         this.__parse(lines)
@@ -51,13 +56,38 @@ class Liner extends Transform {
 
             const obj = {}
 
-            if (this.header)
+            if (this.hasHeader)
                 elements.map((x, i) => obj[this.header[i]] = x)
-            else
+            else 
                 elements.map((x, i) => obj[i] = x)
             
             this.parsed.push(JSON.stringify(obj))
         })
+    }
+
+    findDelimiter(lines) {
+        const frequency = []
+
+        for (const line of lines) {
+            const temp = []
+            for (const delim of this.delimiters)
+                temp.push(line.split(delim).length - 1)
+            frequency.push(temp)
+        }
+
+        return this.delimiters[this.getMostPopularValue(this.getMaxNumberIndex(frequency))]
+    }
+
+    // Get most popular value in array
+    getMostPopularValue(arr) {
+        return arr.sort((a, b) =>
+            arr.filter(v => v === a).length
+            - arr.filter(v => v === b).length
+        ).pop()
+    }
+
+    getMaxNumberIndex(arr) {
+        return arr.map(el => el.indexOf(Math.max(...el)))
     }
 }
 
