@@ -5,11 +5,13 @@
   "main": "parser.js",
   "scripts": {
     "start": "node .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/eslint/bin/eslint.js ."
   },
   "keywords": [],
   "author": "Misha Kushka",
   "license": "ISC",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^5.14.1"
   }
 }

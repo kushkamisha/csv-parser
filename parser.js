@@ -15,6 +15,7 @@ source
 liner.on('readable', () => {
     let line
     while (null !== (line = liner.read())) {
+        // eslint-disable-next-line no-console
         console.log(JSON.parse(line))
     }
 })
