@@ -5,7 +5,9 @@
   "main": "parser.js",
   "scripts": {
     "start": "node .",
-    "test": "./node_modules/eslint/bin/eslint.js ."
+    "test": "There are no tests for this project.",
+    "deploy": "No deploy",
+    "lint": "./node_modules/eslint/bin/eslint.js ."
   },
   "keywords": [],
   "author": "Misha Kushka",
